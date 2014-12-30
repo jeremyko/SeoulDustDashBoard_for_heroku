@@ -37,7 +37,7 @@ angular.module('dustDataTable', [])
             $scope.figureOutToDisplay();
         });
 
-        $scope.$watch('globalData.dustDataArry', function(){ console.log("globalData.dustDataArry changes!!!!!!");} );
+        //$scope.$watch('globalData.dustDataArry', function(){ console.log("globalData.dustDataArry changes!!!!!!");} );
         ///////////////////////////////////////////////////////
 
     }]);

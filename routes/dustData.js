@@ -37,7 +37,7 @@ var getDustDataByMultipleAreas = function  (res,dustAreaArray, dustDateFrom, dus
             res.send(err.code);
         },
         function (dustDataArry) {
-            console.log('server:', dustDataArry);
+            //console.log('server:', dustDataArry);
             res.send(dustDataArry);
         });
 };

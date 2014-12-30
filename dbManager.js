@@ -59,7 +59,7 @@ function dbManager() {
             + dustDateTo + "' and area "+areaCondition
             + " order by date";
 
-        console.log("queryStr=",queryStr);
+        //console.log("queryStr=",queryStr);
 
         var query = connection.query(queryStr,function(err, result) {
             if(err){
@@ -107,7 +107,7 @@ function dbManager() {
                 return ;
             }
 
-            console.log("dbManager / insertDB !!"); //debug
+            //console.log("dbManager / insertDB !!"); //debug
 
             queryStr = "INSERT INTO dust_data(date,area,pm10,pm25,level,detMat,detMatIndex) values('"+
                 dustData.date+"','" +
@@ -118,7 +118,7 @@ function dbManager() {
                 dustData.detMat +"','" +
                 dustData.detMatIndex +"')";
 
-            console.log("queryStr==>",queryStr); //debug
+            //console.log("queryStr==>",queryStr); //debug
             query = connection.query(queryStr, function(err, result) {
                 if (err) {
                     console.log(err);

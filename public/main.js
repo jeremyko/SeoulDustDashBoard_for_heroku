@@ -98,7 +98,7 @@ angular.module('dashBoardMain', [])
                     function(payload) {
                         angular.copy(payload.data, globalData.dustDataArry) ; //DEEP COPY !!!
                         $scope.totalDataCount = globalData.dustDataArry.length;
-                        console.log('server get OK : length==>',globalData.dustDataArry.length); //debug
+                        //console.log('server get OK : length==>',globalData.dustDataArry.length); //debug
 
                         globalData.buildChartData(); //for chart data
 

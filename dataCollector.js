@@ -20,7 +20,7 @@ var determinationFactorVal;
 //detailed info
 var getDustData = function  () {
 
-    console.log('**** funcDetailed invoked!! : ', new Date());
+    //console.log('**** getDustData invoked!! : ', new Date());
 
     request({uri: 'http://cleanair.seoul.go.kr/air_city.htm?method=measure', encoding: 'binary', timeout: 15000},
         function (err, response, body) {
