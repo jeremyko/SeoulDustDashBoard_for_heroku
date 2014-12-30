@@ -23,8 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //app.use(express.static(path.join(__dirname, '/bower_components'))); //20141229
-app.use('/bower_components', express.static(path.join(__dirname, '/app/bower_components')));
-app.use(express.static(path.join(__dirname, '/app/public')));
+app.use('/app/bower_components', express.static(path.join(__dirname, '/bower_components')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/dust', db_api);
 app.use('/', routing_for_angluarjs);
