@@ -32,12 +32,13 @@ var getDustData = function  () {
     var cheerio = require('cheerio');
     var Iconv  = require('iconv').Iconv;
 
-    request({uri: 'http://cleanair.seoul.go.kr/air_city.htm?method=measure', encoding: 'binary', timeout: 20000},
+    //request({uri: 'http://cleanair.seoul.go.kr/air_city.htm?method=measure', encoding: 'binary', timeout: 20000},
+    request({uri: 'http://cleanair.seoul.go.kr/air_city.htm?method=measure', encoding: 'binary'},
         function (err, response, body) {
             if (!err && response.statusCode == 200) {
 
             }else{
-                console.log('ERROR:', err);
+                console.log('request.js -> ERROR:', err);
                 return;
             }
             var strContents = new Buffer(body, 'binary');
