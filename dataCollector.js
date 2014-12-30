@@ -32,7 +32,7 @@ var getDustData = function  () {
     var cheerio = require('cheerio');
     var Iconv  = require('iconv').Iconv;
 
-    request({uri: 'http://cleanair.seoul.go.kr/air_city.htm?method=measure', encoding: 'binary', timeout: 15000},
+    request({uri: 'http://cleanair.seoul.go.kr/air_city.htm?method=measure', encoding: 'binary', timeout: 20000},
         function (err, response, body) {
             if (!err && response.statusCode == 200) {
 
