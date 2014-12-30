@@ -18,15 +18,8 @@
       detMatIndex integer,
       CONSTRAINT pk_dust_data PRIMARY KEY (date, area)
     )
-##### 2. Need to config your Postgres connection in **dbManager.js**
-**current config ** 	
-
-    host     : 'localhost',
-    database : 'seoul_dust',
-    user     : 'test',
-    password : '1234'
         
-##### 3. npm install
+##### 2. npm install
 if you find below message, just select 2.<br> 
 This is caused by angular-bootstrap which only supports 1.2.x AngularJS.<br>
 Note that this app only works under AngularJS 1.3.0 or above.
@@ -39,7 +32,7 @@ Note that this app only works under AngularJS 1.3.0 or above.
     
     ? Answer:: 2
 
-##### 4. npm start
+##### 3. npm start
 
 ##### Done!
 

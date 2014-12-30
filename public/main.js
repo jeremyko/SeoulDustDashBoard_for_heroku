@@ -106,7 +106,7 @@ angular.module('dashBoardMain', [])
                         $rootScope.$broadcast('new-data-arrived');
                     },
                     function(errorPayload) {
-                        $log.error('failure loading data', errorPayload);
+                        console.log('failure loading data', errorPayload);
                     });
                 };
 

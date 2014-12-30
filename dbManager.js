@@ -8,7 +8,8 @@ function dbManager() {
     //this is singleton
     //console.log("dbManager invoked!!"); //debug
 
-    var mysql   = require('mysql');
+    //var mysql   = require('mysql');
+    var pg = require('pg');
     var instance;
     var connection ;
 
@@ -29,17 +30,17 @@ function dbManager() {
     //methods
     //-----------------------------------------------------
     instance.connectDB = function() {
-        //console.log("1. dbManager / connectDB invoked!!"); //debug
+        console.log("1. dbManager / connectDB invoked!!"); //debug
 
-        connection = mysql.createConnection({
-            host     : 'localhost',
-            database : 'seoul_dust',
-            user     : 'test',
-            password : '1234'
+        console.log("process.env.DATABASE_URL =", process.env.DATABASE_URL ); //debug
+        pg.connect(process.env.DATABASE_URL, function(err, client) {
+            if(!err){
+                connection = client;
+            }
         });
 
-        connection.connect();
     };
+
 
     //----------------------------------------------------- multiple area
     instance.selectDustDataByAreaArrayAndDateRange= function( dustAreaArray, dustDateFrom, dustDateTo, onError,onSuccess ) {
@@ -60,58 +61,72 @@ function dbManager() {
 
         console.log("queryStr=",queryStr);
 
-        connection.query(queryStr,  function (err, rows, fields) {
-                if (err) {
-                    console.log("selectDustDataByAreaAndDateRange Error:", err.code);
-                    onError(err);
-                    //throw err;
-                }
-
-                if (rows != undefined) {
-                    //console.log('selectDustDataByAreaAndDateRange: rows->',rows);//debug
-                    onSuccess(rows);
-                }
+        var query = connection.query(queryStr,function(err, result) {
+            if(err){
+                console.log("Query Error!!! : ", error);
+                onSuccess(error);
             }
-        );
+
+            //console.log("result.rows=",result.rows);
+            onSuccess(result.rows);
+        });
+
+        /*
+        query.on('row', function(row) {
+            console.log("row=",row);
+
+            console.log("JSON.stringify=",JSON.stringify(row));
+            onSuccess(row);
+        });
+
+        query.on('error', function(error) {
+            console.log("Query Error!!! : ", error);
+            onSuccess(error);
+        });
+
+        query.on('end', console.log("fetching ends!")); //debug
+        */
+
     };
 
     //-----------------------------------------------------
     instance.insertDB = function( dustData ){
 
-        connection.query("select 1 as count from dust_data where date='"
-            +dustData.date+"' and area='"+ dustData.area+"' limit 1",
-            function(err, rows, fields) {
+        var queryStr = "select count(1) as count from dust_data where date='"+dustData.date+"' and area='"+ dustData.area+"'" ;
+        //console.log(queryStr);
+
+        var query = connection.query(queryStr, function(err, result) {
+
+            if(err){
+                console.log(err);
+                throw err;
+            }
+
+            if(result.rows[0] != undefined && result.rows[0].count == 1){
+                //console.log('already exists!');
+                return ;
+            }
+
+            console.log("dbManager / insertDB !!"); //debug
+
+            queryStr = "INSERT INTO dust_data(date,area,pm10,pm25,level,detMat,detMatIndex) values('"+
+                dustData.date+"','" +
+                dustData.area+"','" +
+                dustData.pm10 +"','" +
+                dustData.pm25 +"','" +
+                dustData.level +"','" +
+                dustData.detMat +"','" +
+                dustData.detMatIndex +"')";
+
+            console.log("queryStr==>",queryStr); //debug
+            query = connection.query(queryStr, function(err, result) {
                 if (err) {
-                    console.log(err.code); // 'ECONNREFUSED'
+                    console.log(err);
                     throw err;
                 }
-
-                if(rows[0] != undefined && rows[0].count == 1){
-                    //console.log('already exists!');
-                    return ;
-                }
-
-                //console.log("dbManager / insertDB !!"); //debug
-
-                var queryStr = "INSERT INTO dust_data(date,area,pm10,pm25,level,detMat,detMatIndex) values('"+
-                    dustData.date+"','" +
-                    dustData.area+"','" +
-                    dustData.pm10 +"','" +
-                    dustData.pm25 +"','" +
-                    dustData.level +"','" +
-                    dustData.detMat +"','" +
-                    dustData.detMatIndex +"')";
-
-                //console.log("queryStr==>",queryStr);
-
-                connection.query(queryStr,  function(err, rows, fields) {
-                    if (err) {
-                        console.log(err.code); // 'ECONNREFUSED'
-                        throw err;
-                    }
-                    return true;
-                });
             });
+
+        });
     };
 
     //-----------------------------------------------------
@@ -119,12 +134,14 @@ function dbManager() {
         console.log("dbManager / disConnectDB  invoked!!"); //debug
         if(false==instance.bDisconnected){
             console.log("dbManager / connection.end()"); //debug
-            connection.end();
+            //connection.end();
+            pg.end();
             instance.bDisconnected= true;
         }else{
             console.log("dbManager / already disconnected!!"); //debug
         }
     };
+
 
     //-----------------------------------------------------
     //connect!
