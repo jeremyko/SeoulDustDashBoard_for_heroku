@@ -38,7 +38,9 @@ var getDustData = function  () {
             if (!err && response.statusCode == 200) {
 
             }else{
-                console.log('request.js -> ERROR:', err);
+                console.log('******** request.js -> ERROR:', err);
+                console.log('******** request.js -> response:', response);
+                console.log('******** request.js -> body:', body);
                 return;
             }
             var strContents = new Buffer(body, 'binary');
