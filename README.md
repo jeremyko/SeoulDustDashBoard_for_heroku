@@ -22,20 +22,7 @@
         
 ##### 2. npm install
 
-##### 3. bower install
-if you find below message, just select 2.<br> 
-This is caused by angular-bootstrap which only supports 1.2.x AngularJS.<br>
-Note that this app only works under AngularJS 1.3.0 or above.
-
-    Unable to find a suitable version for angular, please choose one:
-    1) angular#>=1 <1.3.0 which resolved to 1.2.28 and is required by angular-bootstrap#0.12.0 
-    2) angular#>=1.3.0 which resolved to 1.3.8 and is required by SeoulDustDashBoard 
-    3) angular#~1.x which resolved to 1.3.8 and is required by tc-angular-chartjs#1.0.9 
-    4) angular#1.3.8 which resolved to 1.3.8 and is required by angular-route#1.3.8Prefix the choice with ! to persist it to bower.json
-    
-    ? Answer:: 2
-
-##### 4. npm start
+##### 3. npm start
 
 ##### Done!
 
