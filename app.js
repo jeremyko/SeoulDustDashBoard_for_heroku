@@ -66,8 +66,11 @@ app.use(function(err, req, res, next) {
 // 주기적으로 dust data 수집
 var puts = require('sys').puts;
 var collector = require('./dataCollector');
-var collectPeriod = 1000*60*10; //5 min
+var collectPeriod = 1000*60*10; //10 min
 //var collectPeriod = 1000*20; //
+
+var removeOldPeriod = 1000*60*60*12; //12 hours
+//var removeOldPeriod = 1000*5; //test
 
 collector.getDustData();
 
@@ -77,6 +80,12 @@ setInterval(function() {
 
 }, collectPeriod );
 
+//limited days data only...
+setInterval(function() {
+    puts('/////////////////////////////////////////// remove old data');
+    collector.removeOldData();
+
+}, removeOldPeriod );
 //-------------------------------------------------------------------------
 
 

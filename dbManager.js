@@ -44,6 +44,8 @@ function dbManager() {
 
     //----------------------------------------------------- multiple area
     instance.selectDustDataByAreaArrayAndDateRange= function( dustAreaArray, dustDateFrom, dustDateTo, onError,onSuccess ) {
+
+        var rows = [];
         //console.log("selectDustDataByAreaArrayAndDateRange invoked=",dustAreaArray.length);
         var areaCondition ='in (';
         for(var i = 0; i<dustAreaArray.length;i++){
@@ -61,6 +63,7 @@ function dbManager() {
 
         //console.log("queryStr=",queryStr);
 
+        /*
         var query = connection.query(queryStr,function(err, result) {
             if(err){
                 console.log("Query Error!!! : ", error);
@@ -70,22 +73,25 @@ function dbManager() {
             //console.log("result.rows=",result.rows);
             onSuccess(result.rows);
         });
+        */
 
-        /*
+
+        var query = connection.query(queryStr);
+
         query.on('row', function(row) {
-            console.log("row=",row);
-
-            console.log("JSON.stringify=",JSON.stringify(row));
-            onSuccess(row);
+            rows.push(row);
         });
 
         query.on('error', function(error) {
             console.log("Query Error!!! : ", error);
-            onSuccess(error);
+            onError(error);
         });
 
-        query.on('end', console.log("fetching ends!")); //debug
-        */
+        query.on('end', function(result) {
+            //console.log(result.rowCount + ' rows were received');
+            //console.log(rows.length + ' rows were received');
+            onSuccess(rows);
+        });
 
     };
 
@@ -95,7 +101,7 @@ function dbManager() {
         var queryStr = "select count(1) as count from dust_data where date='"+dustData.date+"' and area='"+ dustData.area+"'" ;
         //console.log(queryStr);
 
-        var query = connection.query(queryStr, function(err, result) {
+        connection.query(queryStr, function(err, result) {
 
             if(err){
                 console.log(err);
@@ -119,13 +125,25 @@ function dbManager() {
                 dustData.detMatIndex +"')";
 
             //console.log("queryStr==>",queryStr); //debug
-            query = connection.query(queryStr, function(err, result) {
+            connection.query(queryStr, function(err, result) {
                 if (err) {
                     console.log(err);
                     throw err;
                 }
             });
 
+        });
+    };
+
+    instance.removeOldData = function () {
+        var queryStr = "delete from dust_data where date < to_char(current_date-15, 'yyyymmdd')";
+        console.log("delete old data ==>",queryStr); //debug
+
+        connection.query(queryStr, function(err, result) {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
         });
     };
 

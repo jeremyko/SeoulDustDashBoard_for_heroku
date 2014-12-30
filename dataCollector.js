@@ -17,6 +17,13 @@ var currentStatus;
 var determinationMaterial;
 var determinationFactorVal;
 
+//removeOldData
+var removeOldData = function  () {
+
+    dbManagerInstance.removeOldData();
+};
+
+
 //detailed info
 var getDustData = function  () {
 
@@ -161,3 +168,4 @@ var funcSummary = function  () {
 */
 
 module.exports.getDustData = getDustData;
+module.exports.removeOldData =removeOldData;
