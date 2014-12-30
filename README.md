@@ -1,4 +1,5 @@
-##Displaying current density of particulate matter(PM10) in seoul using AngularJS, Express.js
+##Displaying current density of particulate matter(PM10) in seoul using AngularJS, Express.js for Heroku deployment
+
 
 ![image](https://github.com/jeremyko/SeoulDustDashBoard/blob/master/scrCap1.png)
 
@@ -20,6 +21,8 @@
     )
         
 ##### 2. npm install
+
+##### 3. bower install
 if you find below message, just select 2.<br> 
 This is caused by angular-bootstrap which only supports 1.2.x AngularJS.<br>
 Note that this app only works under AngularJS 1.3.0 or above.
@@ -32,7 +35,7 @@ Note that this app only works under AngularJS 1.3.0 or above.
     
     ? Answer:: 2
 
-##### 3. npm start
+##### 4. npm start
 
 ##### Done!
 
