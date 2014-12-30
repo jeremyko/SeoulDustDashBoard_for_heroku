@@ -5,9 +5,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-var request = require('request');
-var Iconv  = require('iconv').Iconv;
-var cheerio = require('cheerio');
+
+
+
 var dbManagerInstance = require('./dbManager');
 
 var currentDate;
@@ -28,6 +28,9 @@ var removeOldData = function  () {
 var getDustData = function  () {
 
     //console.log('**** getDustData invoked!! : ', new Date());
+    var request = require('request');
+    var cheerio = require('cheerio');
+    var Iconv  = require('iconv').Iconv;
 
     request({uri: 'http://cleanair.seoul.go.kr/air_city.htm?method=measure', encoding: 'binary', timeout: 15000},
         function (err, response, body) {
