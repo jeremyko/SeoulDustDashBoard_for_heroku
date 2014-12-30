@@ -5,17 +5,6 @@
     <meta charset="utf-8">
     <title>seoul dust dashboard app</title>
 
-    <!--
-    <script src="angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="bower_components/Chart.js/Chart.js"></script>
-    <script src="bower_components/tc-angular-chartjs/dist/tc-angular-chartjs.min.js"></script>
-    -->
-
 
     <script src="angular/angular.js"></script>
     <script src="angular-route/angular-route.js"></script>
@@ -98,10 +87,18 @@
             <label> <input type="radio" ng-model="view_format" value="format_table" ng-change='displayFormatChanged(view_format)'> <span class="glyphicon glyphicon-list" ></span> List  </label> &nbsp;
             <label> <input type="radio" ng-model="view_format" value="format_chart" ng-change='displayFormatChanged(view_format)'> <span class="glyphicon glyphicon-stats"></span> Chart  </label>
 
-
         </div>  <!-- row -->
 
-        <div style="text-align :right">Total {{ totalDataCount }} data</div>
+        <div style="text-align :right">
+            <div ng-show="view_format=='format_chart'">
+                <label><input type="checkbox" ng-model="keep_monitoring" ng-click="keepMonitoringCheckBoxChanged()"/> Keep Monitoring</label>
+            </div>
+
+            <div ng-show="view_format!='format_chart'">
+                Total {{ totalDataCount }} data
+            </div>
+        </div>
+
     </div> <!-- main controller -->
 
     <div ng-view ></div>

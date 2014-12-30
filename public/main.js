@@ -147,15 +147,53 @@ angular.module('dashBoardMain', [])
                 startingDay: 1
             };
 
+
+
+            $scope.keep_monitoring = false;
+            var timerId = -1;
+            var refreshPeriod = 1000*60*1; //1 min
+
             //------------------------------------------
             $scope.displayFormatChanged = function(value) {
 
                 if(value === "format_chart") {
+
+                    if($scope.keep_monitoring){
+                        timerId = setInterval(function() {
+                            //console.log("refresh!!");
+                            $scope.showData();
+                        }, refreshPeriod );
+                    }
                     $location.path( '/dustChart' );
+
                 } else if(value === "format_table") {
+                    if(timerId>0){
+                        clearInterval(timerId);
+                        timerId = -1;
+                        $scope.keep_monitoring = false;
+                        //console.log("refresh timer cancelled !!");
+                    }
                     $location.path( '/dustDataTable' );
                 }
             };
+
+            //------------------------------------------
+            $scope.keepMonitoringCheckBoxChanged = function() {
+                //console.log("keepMonitoringCheckBoxChanged ->",$scope.keep_monitoring);
+
+                if( $scope.keep_monitoring){
+                    timerId = setInterval(function() {
+                        $scope.showData();
+                    }, refreshPeriod );
+                }else{
+                    if(timerId>0){
+                        clearInterval(timerId);
+                        timerId = -1;
+                        $scope.keep_monitoring = false;
+                    }
+                }
+            };
+
 
             $scope.setToday();
             $scope.showData(); //!!!!!!!!
